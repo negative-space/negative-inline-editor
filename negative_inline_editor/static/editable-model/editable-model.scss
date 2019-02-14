@@ -1,0 +1,355 @@
+
+.editable-model[data-html=true]:focus {
+    outline: 0px solid transparent;
+}
+
+.editable-model[data-html=false]:hover {
+    background-color: rgba(0, 212, 255, 0.39);
+}
+.editable-model {
+    min-width: 30px;
+    display: inline-block;
+}
+.editable-model:focus {
+    background-color: inherit;
+}
+
+body.editable .editable-hide {
+    display: none;
+}
+body .editable-show {
+    display: none;
+}
+body.editable .editable-show {
+    display: inherit;
+}
+
+.editable-list {
+    position: relative;
+    min-height: 45px;
+}
+
+.editable-list .editable-item {
+     position: relative;
+}
+.editable-list .editable-item:hover .editable-controls {
+    display: block;
+}
+.editable-list .editable-item .editable-controls a.edit {
+    background: url(/static/editable-model/edit.svg);
+}
+.editable-list .editable-item .editable-controls a.delete {
+    background: url(/static/editable-model/delete.svg);
+}
+.editable-list .editable-item .editable-controls a:hover {
+    background-color: rgba(20, 84, 6, 0.25);
+}
+.editable-list .editable-item .editable-controls a {
+    display: inline-block;
+    border: 1px solid darkgrey;
+    color: darkgrey;
+    width: 30px;
+    height: 30px;
+    padding: 3px;
+    cursor: pointer !important;
+}
+.editable-list .editable-item .editable-controls {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    display: none;
+}
+.editable-list .editable-item:hover[draggable] {
+    cursor: move;
+}
+.editable-list .editable-item:hover[draggable] *:hover {
+    cursor: auto;
+}
+.editable-list .editable-item:hover {
+    background-color: rgba(0, 212, 255, 0.10);
+}
+
+
+.editable-list:hover .editable-list-btn {
+    display: inline-block;
+}
+.editable-list-btn:hover {
+    background-color: rgba(20, 84, 6, 0.25);
+}
+body.editable .editable-placeholder {
+    background-color: rgba(0, 212, 255, 0.10);
+}
+
+.editable-list-btn {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+
+    cursor: pointer !important;
+
+    display: none;
+    color: darkgrey;
+    width: 45px;
+    height: 45px;
+    padding: 3px;
+
+    background: url(/static/editable-model/add.svg);
+}
+
+
+
+.cratis-editable-trigger {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    z-index: 100000;
+
+    transition: margin-left .5s;
+}
+
+.cratis-editable-trigger__btn {
+    background-color: #0e84b5;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+
+    height: 30px;
+    width: 30px;
+
+    border-radius: 0 16px 15px 9px;
+
+    opacity: 0.3;
+
+    transition: opacity .15s ease-in-out;
+    cursor: pointer;
+
+    -webkit-box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.59);
+    -moz-box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.59);
+    box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.59);
+
+}
+
+.cratis-editable-trigger__btn img {
+    padding: 6px 7px 7px 5px;
+    width: 60%;
+}
+.cratis-editable-trigger__btn.cratis-editable-trigger__btn--on {
+    background-color: #04b31f;
+    opacity: 1;
+}
+
+
+.cratis-editable-trigger__btn:hover {
+    opacity: 1;
+}
+
+
+.cratis-editable-trigger__panel {
+    position: fixed;
+
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+
+
+    transform-origin: bottom left;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+    margin-top: -20px;
+}
+.cratis-editable-trigger__panel-badge:hover {
+    opacity: 0.7;
+}
+.cratis-editable-trigger__panel-badge.active {
+    opacity: 1;
+}
+.cratis-editable-trigger__panel-badge {
+
+    display: inline-block;
+
+    opacity: 0.3;
+    transition: opacity .15s ease-in-out;
+
+    cursor: pointer;
+
+    background-color: #0e84b5;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+
+    height: 16px;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 12px;
+
+    border-radius: 16px 15px 9px 0;
+
+    padding: 7px;
+
+    margin-left: -3px;
+
+    -webkit-box-shadow: 3px -3px 5px -2px rgba(0,0,0,0.59);
+    -moz-box-shadow: 3px -3px 5px -2px rgba(0,0,0,0.59);
+    box-shadow: 3px -3px 5px -2px rgba(0,0,0,0.59);
+}
+
+
+/* The side navigation menu */
+.cratis-editable-sidebar {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    top: 0;
+    left: 0;
+
+    background-color: #0e84b5;
+    color: white;
+
+
+    z-index: 10000;
+
+    -webkit-box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.59);
+    -moz-box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.59);
+    box-shadow: 3px 3px 5px -2px rgba(0,0,0,0.59);
+
+
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the.cratis-editable-sidebar */
+
+
+}
+
+.cratis-editable-sidebar__panel {
+    display: none;
+}
+.cratis-editable-sidebar__panel.active {
+    display: block;
+}
+.cratis-editable-sidebar__panel__name {
+    padding: 20px;
+}
+.cratis-editable-sidebar .closebtn {
+    color: #fff;
+    padding: 3px 10px;
+    text-decoration: none;
+
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    border-radius: 5px;
+
+}
+.cratis-editable-sidebar .closebtn:hover{
+    color: #f1f1f1;
+    background-color: rgba(255, 255, 255, 0.31);
+}
+
+.cratis-editable-sidebar__panel a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.cratis-editable-wrapper {
+    transition: margin-left .5s;
+    /*z-index: 10000;*/
+    /*padding: 20px;*/
+}
+
+.cratis-editable-sidebar.open {
+    width: 250px;
+}
+.cratis-editable-wrapper.open {
+    margin-left: 250px;
+}
+.cratis-editable-trigger.open {
+    margin-left: 250px;
+}
+
+
+/* editable list */
+.cratis-editable-sidebar .editable-list {
+    position: inherit;
+    margin: 0;
+    padding: 10px;
+}
+.cratis-editable-sidebar .editable-list li {
+    /*border: 1px solid #106c91;*/
+    background-color: #fff;
+    color: black;
+    margin: 6px 0;
+    box-shadow: 2px 2px 4px 0px rgba(0,0,0,0.35);
+    list-style: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+.cratis-editable-sidebar .editable-list li .type-name {
+    font-size: 12px;
+    color: #bababa;
+    font-style: italic;
+    display: block;
+}
+.cratis-editable-sidebar .editable-list li:hover {
+    background-color: white;
+}
+
+.cratis-editable-sidebar .sortable-placeholder {
+    height: 51px;
+    border: 2px dashed white;
+    background-color: #0e84b5 !important;
+}
+
+.cratis-editable-sidebar .editable-list .editable-controls a:hover {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+.cratis-editable-sidebar .editable-list-btn {
+    display: inline-block;
+
+    position: inherit;
+    padding: 10px;
+    top: 40px;
+    width: 100%;
+    background: url(/static/editable-model/add-white.svg) no-repeat center;
+
+    height: 51px;
+    border: 2px dashed white;
+    opacity: 0.3;
+}
+
+.cratis-editable-sidebar .editable-list-btn:hover {
+    opacity: 1;
+}
+
+
+#editable-strings {
+
+    #editable-lang-selector {
+        font-size: 12px;
+    }
+
+    p {
+        padding: 3px 0px 3px 15px;
+
+        label {
+            display: block;
+            font-size: 10px;
+        }
+
+
+        font-size: 16px;
+
+    }
+}

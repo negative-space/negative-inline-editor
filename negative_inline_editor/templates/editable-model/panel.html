@@ -1,0 +1,164 @@
+{% load negative_inline_panel_helpers negative_inline_edit negative_i18n negative_i18n_links %}
+<script src="/static/editable-model/medium/jquery/dist/jquery.js"></script>
+
+<div class="cratis-editable-sidebar {% if request.GET.editableTab %}open{% endif %}">
+    <a href="javascript:void(0)" class="closebtn">&times;</a>
+
+    <div id="editable-strings"
+                 class="cratis-editable-sidebar__panel {% if request.GET.editableTab == 'editable-strings' %}active{% endif %}">
+
+        <h3 class="cratis-editable-sidebar__panel__name">I18n
+
+            <select id="editable-lang-selector">
+                {% for key, name in langs %}
+                <option value="{{ key }}" data-url="{% change_lang key %}" {% if lang == key %}selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+        </h3>
+
+        {% with disable_i18n_collect=True %}
+        {% for string in request.editable_strings %}
+        <p>
+            <label>{{ string }}</label>
+            {% _ string %}
+        </p>
+        {% endfor %}
+        {% endwith %}
+    </div>
+
+    {% for panel in request.editable_panels.values %}
+        {% with panel.name|slugify as panel_name %}
+            <div id="{{ panel_name }}"
+                 class="cratis-editable-sidebar__panel {% if request.GET.editableTab == panel_name %}active{% endif %}">
+
+                <h3 class="cratis-editable-sidebar__panel__name">{{ panel.name|capfirst }}
+
+                    {% if panel.form_style %}
+                        <a href="{{ panel.model_admin_url }}" target="_blank"
+                           style="opacity: 0.6; padding: 6px 0 0 3px; font-size: 10px; display: inline-block">
+                            <img src="/static/editable-model/link.svg" alt="" width="10px;">
+                        </a>
+                    {% endif %}
+                </h3>
+
+                {% if panel.form_style %}
+
+                    {% if panel.admin_cls %}
+                        <iframe
+                                style="width: 100%;"
+                                src="{{ panel.model_admin_url }}?_to_field=id&_popup=1"
+                                frameborder="0">
+                        </iframe>
+                    {% else %}
+                        No admin class registered for {{ panel.model_cls }}
+                    {% endif %}
+                {% else %}
+
+                    <ul id="editable-{{ panel.name }}">
+                        <div class="editable-palette">
+
+                        </div>
+
+                        {{ panel.add_btn|safe }}
+                        {% for item in panel.items %}
+                            <li data-id="{{ item.obj.id }}">
+                                {% if item.obj.editable_preview %}
+                                    {{ item.obj.editable_preview|safe }}
+                                {% else %}
+                                    {{ item.obj }}
+                                {% endif %}
+                                <span class="type-name"> {{ item.cls }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endwith %}
+    {% endfor %}
+
+</div>
+
+<div id="cratis-editable" class="cratis-editable-trigger {% if request.GET.editableTab %}open{% endif %}">
+    <div class="cratis-editable-trigger__btn {% if request.session.editable %}cratis-editable-trigger__btn--on{% endif %}">
+        {% if not request.session.editable %}
+            <a href="?editable=1">
+                {# https://iconmonstr.com/light-bulb/ #}
+                <img src="/static/editable-model/bulb-off.svg"/>
+            </a>
+        {% else %}
+            <a href="?editable=0">
+                {# https://iconmonstr.com/light-bulb/ #}
+                <img src="/static/editable-model/bulb-on.svg"/>
+            </a>
+        {% endif %}
+    </div>
+
+    {% if request.session.editable %}
+
+        <div class="cratis-editable-trigger__btn {% if request.session.editable_inplace %}cratis-editable-trigger__btn--on{% endif %}">
+            {% if not request.session.editable_inplace %}
+                <a href="?editable-inplace=1{% if request.GET.editableTab %}&editableTab={{ request.GET.editableTab }}{% endif %}">
+                    {# https://iconmonstr.com/language-10-svg/ #}
+                    <img src="/static/editable-model/i18n.svg"/>
+                </a>
+            {% else %}
+                <a href="?editable-inplace=0{% if request.GET.editableTab %}&editableTab={{ request.GET.editableTab }}{% endif %}">
+                    {# https://iconmonstr.com/language-10-svg/ #}
+                    <img src="/static/editable-model/i18n.svg"/>
+                </a>
+            {% endif %}
+        </div>
+        <div class="cratis-editable-trigger__panel">
+            {% for panel in request.editable_panels.keys %}
+                {% with panel|slugify as panel_name %}
+                    <div class="cratis-editable-trigger__panel-badge {% if request.GET.editableTab == panel_name %}active{% endif %}"
+                         data-idx="{{ forloop.counter0 }}" data-target="{{ panel_name }}">
+                        {{ panel|capfirst }}
+                    </div>
+                {% endwith %}
+            {% endfor %}
+
+            <div class="cratis-editable-trigger__panel-badge {% if request.GET.editableTab == 'editable-strings' %}active{% endif %}"
+                     data-target="editable-strings">
+                i18n
+            </div>
+
+        </div>
+    {% endif %}
+
+</div>
+
+
+
+<script src="/static/editable-model/editable-model.js?v=2" defer></script>
+<script src="/static/editable-model/URI.js" defer></script>
+<script src="/static/editable-model/jquery.sortable.js" defer></script>
+
+<!-- medium editor -->
+<script src="/static/editable-model/medium/medium-editor/dist/js/medium-editor.min.js" defer></script>
+<link rel="stylesheet" href="/static/editable-model/medium/medium-editor/dist/css/medium-editor.css">
+<link rel="stylesheet" href="/static/editable-model/medium/medium-editor/dist/css/themes/beagle.css">
+
+
+<!--<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>-->
+<!-- medium insert plugin -->
+<!--<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">-->
+<link rel="stylesheet" href="/static/editable-model/medium/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.min.css">
+<script defer src="/static/editable-model/medium/handlebars/handlebars.runtime.min.js"></script>
+<script defer src="/static/editable-model/medium/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script defer src="/static/editable-model/medium/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+<script defer src="/static/editable-model/medium/blueimp-file-upload/js/jquery.fileupload.js"></script>
+<script defer src="/static/editable-model/medium/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.min.js"></script>
+
+<!-- medium tables -->
+
+<link rel="stylesheet" href="/static/editable-model/medium/medium-editor-tables/dist/css/medium-editor-tables.css" />
+<script defer type="text/javascript" src="/static/editable-model/medium/medium-editor-tables/dist/js/medium-editor-tables.js"></script>
+
+<script defer type="text/javascript" src="/static/editable-model/medium/button.js"></script>
+
+
+<link href="/static/modeltranslation/css/tabbed_translation_fields.css" type="text/css" media="all" rel="stylesheet"/>
+<script type="text/javascript" src="/static/modeltranslation/js/tabbed_translation_fields.js"></script>
+
+
