@@ -35,6 +35,7 @@ setup(
     package_dir={'negative-inline-editor': 'negative-inline-editor'},
     include_package_data=True,
     install_requires=[
+        'django-i18n',
         'django-threadlocals'
     ],
     license='MIT',
